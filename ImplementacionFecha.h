@@ -54,66 +54,52 @@ ostream&  operator << (ostream& os, Fecha f1){
 
 	double anio = dd/365.25;
 	aaaa = anio;
-	dd -= aaaa*365.25;
-	//bandera
-	cout<<aaaa<<' '<<dd<<endl;
-
-	mm = 1;
-	bool terminado = false; 
-	while(!terminado){
-			switch(mm){
-			case 1: if((dd-31)>0){ 
-					   dd -= 31;
-					}else terminado = true;
-					break;                 
-			case 2: if((dd-28)>0){ 
-                       dd -= 28;
-                    }else terminado = true;
-                    break;                 
-			case 3: if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			case 4: if((dd-30)>0){ 
-                       dd -= 30;
-                    }else terminado = true;
-                    break;                 
-			case 5: if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			case 6: if((dd-30)>0){ 
-                       dd -= 30;
-                    }else terminado = true;
-                    break;                 
-			case 7: if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			case 8: if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			case 9: if((dd-30)>0){ 
-                       dd -= 30;
-                    }else terminado = true;
-                    break;                 
-			case 10:if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			case 11:if((dd-30)>0){ 
-                       dd -= 30;
-                    }else terminado = true;
-                    break;                 
-			case 12:if((dd-31)>0){ 
-                       dd -= 31;
-                    }else terminado = true;
-                    break;                 
-			}
-		mm = (terminado) ? (mm+1):mm;
-	}	
-	dd = ( (aaaa%4==0 && aaaa!=100 || aaaa%100==0 && aaaa%400==0) && mm>2 ) ? (dd-1):dd;
+	anio-= aaaa;
+	anio *= 12; 
+	mm = anio; 
+	anio -= mm;
+	switch(mm){
+	case 1: anio *= 31; 
+		dd = anio;	
+		break;    
+	case 2: if(aaaa%4==0 && aaaa%100!=0 || aaaa%100==0 && aaaa%400==0){
+			anio *= 29;
+		}else{
+			anio *= 28;
+		} 
+                dd = anio; 
+                break;    
+	case 3: anio *= 31;
+                dd = anio; 
+                break;    
+	case 4: anio *= 30;
+                dd = anio; 
+                break;    
+	case 5: anio *= 31;
+                dd = anio; 
+                break;    
+	case 6: anio *= 30;
+                dd = anio; 
+                break;    
+	case 7: anio *= 31;
+                dd = anio; 
+                break;    
+	case 8: anio *= 31;
+                dd = anio; 
+                break;    
+	case 9: anio *= 30;
+                dd = anio; 
+                break;    
+	case 10:anio *= 31;
+                dd = anio; 
+                break;    
+	case 11:anio *= 30;
+                dd = anio; 
+                break;    
+	case 12:anio *= 31;
+                dd = anio; 
+                break;    
+	}
 	os<<dd<<"/"<<mm<<"/"<<aaaa<<endl;
 	return os; 
 }
