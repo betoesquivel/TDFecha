@@ -49,57 +49,59 @@ bool operator == (Fecha f1, Fecha f2){
 }
 ostream&  operator << (ostream& os, Fecha f1){
 	int dd, mm, aaaa;
+	bool bisiesto = false;
 	//habia bandera, los dias siguen bien a la hora de imprimir
 	dd = f1.diasDesde0;
 
 	double anio = dd/365.25;
 	aaaa = anio;
-	anio-= aaaa;
-	anio *= 12; 
-	mm = anio; 
-	anio -= mm;
-	switch(mm){
-	case 1: anio *= 31; 
-		dd = anio;	
-		break;    
-	case 2: if(aaaa%4==0 && aaaa%100!=0 || aaaa%100==0 && aaaa%400==0){
-			anio *= 29;
-		}else{
-			anio *= 28;
-		} 
-                dd = anio; 
-                break;    
-	case 3: anio *= 31;
-                dd = anio; 
-                break;    
-	case 4: anio *= 30;
-                dd = anio; 
-                break;    
-	case 5: anio *= 31;
-                dd = anio; 
-                break;    
-	case 6: anio *= 30;
-                dd = anio; 
-                break;    
-	case 7: anio *= 31;
-                dd = anio; 
-                break;    
-	case 8: anio *= 31;
-                dd = anio; 
-                break;    
-	case 9: anio *= 30;
-                dd = anio; 
-                break;    
-	case 10:anio *= 31;
-                dd = anio; 
-                break;    
-	case 11:anio *= 30;
-                dd = anio; 
-                break;    
-	case 12:anio *= 31;
-                dd = anio; 
-                break;    
+	if(aaaa%4==0 && aaaa%100!=0 && aaaa!=0|| aaaa%100==0 && aaaa%400==0 && aaaa!=0){
+		bisiesto = true; 
 	}
+	anio-= aaaa;
+	anio *= 365.25; 
+	dd = anio;
+	anio -= dd;
+
+	if(dd<=31){
+		mm = 1;	
+	}else if(dd<=59 || dd<=60 && bisiesto){
+		mm = 2;
+		dd-=30;
+	}else if(dd<=90 || dd<=91 && bisiesto){
+		mm = 3;
+		dd = (!bisiesto) ? (dd-58):(dd-59);
+	}else if(dd<=120 || dd<=121 && bisiesto){
+		mm = 4;
+		dd = (!bisiesto) ? (dd-89):(dd-90);
+	}else if(dd<=151 || dd<=152 && bisiesto){
+		mm = 5;
+		dd = (!bisiesto) ? (dd-119):(dd-120);
+	}else if(dd<=181 || dd<=182 && bisiesto){
+		mm = 6;
+		dd = (!bisiesto) ? (dd-150):(dd-151);
+	}else if(dd<=212 || dd<=213 && bisiesto){
+		mm = 7;
+		dd = (!bisiesto) ? (dd-180):(dd-181);
+	}else if(dd<=243 || dd<=244 && bisiesto){
+		mm = 8;
+		dd = (!bisiesto) ? (dd-211):(dd-212);
+	}else if(dd<=273 || dd<=274 && bisiesto){
+		mm = 9;
+		dd = (!bisiesto) ? (dd-242):(dd-243);
+	}else if(dd<=304 || dd<=305 && bisiesto){
+		mm = 10;
+		dd = (!bisiesto) ? (dd-272):(dd-273);
+	}else if(dd<=334 || dd<=335 && bisiesto){
+		mm = 11;
+		dd = (!bisiesto) ? (dd-303):(dd-304);
+	}else if(dd<=365 || dd<=366 && bisiesto){
+		mm = 12;
+		dd = (!bisiesto) ? (dd-333):(dd-334);
+	}
+//Le quite un dia menos a dias en cada mes, porque me daba un dia mas.
+//y el anio 0 no es bisiesto
+	
 	os<<dd<<"/"<<mm<<"/"<<aaaa<<endl;
 	return os; 
 }
