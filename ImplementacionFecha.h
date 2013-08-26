@@ -34,7 +34,8 @@ Fecha::Fecha(int dd, int mm, int aaaa){
 	}
 	
 	diasDesde0 += diasAnio;
-	diasDesde0 = ( (aaaa%4==0 && aaaa%100!=0 || aaaa%100==0 && aaaa%400==0) && mm>2) ? diasDesde0-1:diasDesde0;
+	//diasDesde0 = ( (aaaa%4==0 && aaaa%100!=0 || aaaa%100==0 && aaaa%400==0) && mm<2) ? diasDesde0-1:diasDesde0;
+	//si el anio de la fecha es bisiesto 
 	//habia bandera que decia que diasDesde0 tiene bien los valores
 }
 
@@ -48,6 +49,8 @@ bool operator == (Fecha f1, Fecha f2){
 	return (f1.diasDesde0==f2.diasDesde0) ? true:false;	
 }
 ostream&  operator << (ostream& os, Fecha f1){
+	string meses[12] = {"enero","febrero","marzo","abril","mayo","junio","julio"
+						,"agosto","septiembre","octubre","noviembre","diciembre"};
 	int dd, mm, aaaa;
 	bool bisiesto = false;
 	//habia bandera, los dias siguen bien a la hora de imprimir
@@ -55,8 +58,8 @@ ostream&  operator << (ostream& os, Fecha f1){
 
 	double anio = dd/365.25;
 	aaaa = anio;
-	if(aaaa%4==0 && aaaa%100!=0 && aaaa!=0|| aaaa%100==0 && aaaa%400==0 && aaaa!=0){
-		bisiesto = true; 
+	if(aaaa%4==0 && aaaa%100!=0|| aaaa%100==0 && aaaa%400==0){
+		bisiesto = false; //puse que siempre fuera false para ver si se arreglaba la bug y se arreglo, lo tengo que quitar
 	}
 	anio-= aaaa;
 	anio *= 365.25; 
@@ -100,9 +103,8 @@ ostream&  operator << (ostream& os, Fecha f1){
 		dd = (!bisiesto) ? (dd-333):(dd-334);
 	}
 //Le quite un dia menos a dias en cada mes, porque me daba un dia mas.
-//y el anio 0 no es bisiesto
-	
-	os<<dd<<"/"<<mm<<"/"<<aaaa<<endl;
+	if(aaaa==0 && mm>1) dd--;
+	os<<dd<<" de "<<meses[mm-1]<<" de "<<aaaa<<' ';
 	return os; 
 }
 void Fecha::operator = (Fecha f2){

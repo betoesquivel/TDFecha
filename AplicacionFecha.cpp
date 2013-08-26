@@ -5,7 +5,7 @@
 
 using namespace std; 
 #include "ImplementacionFecha.h"
-bool debug = true;
+bool debug = false;
 
 bool es_numerico(string s){
 	bool numerico = true; 
