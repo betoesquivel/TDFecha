@@ -1,10 +1,12 @@
 #include <iostream>
+#include <stdexcept>
 #include <time.h>
 #include <fstream>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace std; 
-#include "ImplementacionFecha.h"
+#include "ImplementacionFechaEnEquipos.h"
 bool debug = false;
 
 bool es_numerico(string s){
@@ -68,7 +70,8 @@ int main(){
 	bool primera_vuelta = true; 
 	while(!archivo.eof()){
 		getline(archivo,linea);	
-		cout<<linea<<endl;
+		if(debug)
+			cout<<linea<<endl;
 		if(linea.length()==10){
 			if(debug)
 				cout<<"DEBUG::Es de longitud 10. B"<<endl;
@@ -93,7 +96,7 @@ int main(){
 					}
 					
 					int diasDeDiferencia;
-					cout<<ftemp<<"es una fecha del ";
+					cout<<ftemp<<" es una fecha del ";
 					if(factual>ftemp){
 						cout<<"pasado, ";
 						diasDeDiferencia = factual-ftemp;
